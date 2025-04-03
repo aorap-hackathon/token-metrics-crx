@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "DeBank ETH Modifier",
+  "name": "Token Metrics token analysis",
   "version": "1.0",
-  "description": "Изменяет текст ссылки ETH на ETH+TOKENMETRICS на страницах профиля DeBank.",
+  "description": "Token Metrics token analysis on portfolio managements platforms.",
   "permissions": [
     "https://debank.com/*",
     "storage"
@@ -13,7 +13,7 @@
         "https://debank.com/profile/*"
       ],
       "run_at": "document_end",
-      "js": ["content.js"]
+      "js": ["debank.js"]
     }
   ],
   "options_ui": {
