@@ -1,5 +1,5 @@
 # Token Metrics Trading Signals
-Google Chrome extension to show Token Metrics Trading Signals on portfolio management sites such as **Debank**, **Zerion** and **Metamask Portfolio**.
+Google Chrome extension to show Token Metrics Trading Signals on portfolio management platforms such as **Debank**, **Zerion** and **Metamask Portfolio**.
 
 # Install
 

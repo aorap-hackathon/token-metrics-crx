@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Token Metrics token analysis",
+  "name": "Token Metrics Trading Signals",
   "version": "1.0",
-  "description": "Token Metrics token analysis on portfolio managements platforms.",
+  "description": "Token Metrics Trading Signals on portfolio managements platforms.",
   "permissions": [
     "https://debank.com/*",
     "storage"
