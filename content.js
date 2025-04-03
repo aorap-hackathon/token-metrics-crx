@@ -7,7 +7,7 @@ window.addEventListener("load", () => {
       const links = document.querySelectorAll("a[class^='TokenWallet_detailLink']");
       links.forEach(link => {
         if (link.textContent.trim() === "ETH") {
-          link.textContent = "ETH+TOKENMETRICS";
+          link.innerHTML = `ETH <span style="color: red;">Bearish</span>`;
         }
       });  
     }
