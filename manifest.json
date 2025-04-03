@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "DeBank ETH Modifier",
+  "version": "1.0",
+  "description": "Изменяет текст ссылки ETH на ETH+TOKENMETRICS на страницах профиля DeBank.",
+  "permissions": [
+    "https://debank.com/*",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://debank.com/profile/*"
+      ],
+      "run_at": "document_end",
+      "js": ["content.js"]
+    }
+  ],
+  "options_ui": {
+    "page": "home.html",
+    "open_in_tab": false
+  },
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
