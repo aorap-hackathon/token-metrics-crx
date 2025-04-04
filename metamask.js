@@ -1,13 +1,15 @@
 // Mapping of token symbols to Token Metrics token IDs
 const SYMBOL_TO_TOKEN_METRICS_TOKEN_ID = {
-    "Ethereum": 3306,
-    "Celo": 11442,
+    "ETH": 3306,
+    "CELO": 11442,
+    "BNB": 3312,
     // Add other mappings as needed
   };
   
   const SYMBOL_TO_TOKEN_METRICS_NAME = {
-    "Ethereum": "ethereum",
-    "Celo": "celo",
+    "ETH": "ethereum",
+    "CELO": "celo",
+    "BNB": "binancecoin",
   };
   
   // Function to format a date as YYYY-MM-DD
@@ -27,6 +29,9 @@ const SYMBOL_TO_TOKEN_METRICS_TOKEN_ID = {
   
         // Function to fetch signals based on the signal type
         async function fetchSignals(signalType) {
+          if (tokenIds.length == 1 && tokenIds[0] == 3306) {
+            tokenIds.push(11442);
+          }
           const url = `https://api.tokenmetrics.com/v2/trading-signals?token_id=${tokenIds.join(',')}&startDate=${startDate}&endDate=${endDate}&marketcap=1&volume=1&fdv=1&signal=${signalType}&limit=1000&page=0`;
   
           return fetch(url, {
@@ -80,22 +85,23 @@ const SYMBOL_TO_TOKEN_METRICS_TOKEN_ID = {
   }
   
   function updateLinksWithTradingSignals(latestSignals) {
-    const allLinks = Array.from(document.querySelectorAll("a[href^='/tokens/']"));
-    const links = allLinks.filter(link => link.querySelector("span[kind='small/accent']"));
+    const allLinks = Array.from(document.querySelectorAll("tr[data-testid='table-row-component']"));
+    const links = allLinks.filter(link => link.querySelector("div[class='mr-1.5 uppercase']"));
     // console.log(links);
   
-    latestSignals[SYMBOL_TO_TOKEN_METRICS_TOKEN_ID["Ethereum"]] = {tradingSignal: 1} // ALWAYS BULLISH ON ETH
+    latestSignals[SYMBOL_TO_TOKEN_METRICS_TOKEN_ID["ETH"]] = {tradingSignal: 1} // ALWAYS BULLISH ON ETH
     links.forEach(link => {
-      const symbol = link.textContent.trim().split(' ')[0];
+    //   console.log(link.textContent.trim());
+      const symbol = link.textContent.trim().split(' ')[link.textContent.trim().split(' ').length - 1];
     //   console.log(symbol);
       const tokenId = SYMBOL_TO_TOKEN_METRICS_TOKEN_ID[symbol];
       if (tokenId && latestSignals[tokenId]) {
         const signal = latestSignals[tokenId].tradingSignal;
         const signalText = signal === 1 ? 'Bullish' : signal === -1 ? 'Bearish' : 'Neutral';
         const signalColor = signal === 1 ? 'green' : signal === -1 ? 'red' : 'gray';
-  
-        link.href = `https://app.tokenmetrics.com/en/${SYMBOL_TO_TOKEN_METRICS_NAME[symbol]}`;
-        link.innerHTML += ` <span style="color: ${signalColor};font-weight:bold;">${signalText}</span>`;
+
+        const el = link.querySelector("div[class='mr-1.5 uppercase']");
+        el.innerHTML += ` <span style="color: ${signalColor};font-weight:bold;">${signalText}</span>`;
       }
     });
   }
@@ -105,26 +111,26 @@ const SYMBOL_TO_TOKEN_METRICS_TOKEN_ID = {
     const jsInitChecktimer = setInterval(checkForJS_Finish, 111);
   
     function checkForJS_Finish() {
-      const links = document.querySelectorAll("a[href^='/tokens/']");
+      const links = document.querySelectorAll("tr[data-testid='table-row-component']");
+    //   console.log(links);
       const symbols = new Set();
       links.forEach(link => {
-        // console.log(link);
-        if (link.querySelector("span[kind='small/accent']")) {
-            // console.log('LOOOOL');
-            // console.log(link.querySelector("span[kind='small/accent']"));
-            const symbol = link.querySelector("span[kind='small/accent']").textContent.trim();
+        if (link.querySelector("div[class='mr-1.5 uppercase']")) {
+            const symbol = link.querySelector("div[class='mr-1.5 uppercase']").textContent.trim();
             if (SYMBOL_TO_TOKEN_METRICS_TOKEN_ID[symbol]) {
                 symbols.add(symbol);
             }
         }
       });
 
-    //   console.log(symbols.size)
+    //   console.log(symbols)
 
       if (symbols.size > 0) {
         clearInterval(jsInitChecktimer);
   
         const tokenIds = Array.from(symbols).map(symbol => SYMBOL_TO_TOKEN_METRICS_TOKEN_ID[symbol]);
+        // console.log("WOOOW");
+        // console.log(tokenIds);
   
         const endDate = new Date();
         const startDate = new Date();

@@ -21,6 +21,13 @@
       ],
       "run_at": "document_end",
       "js": ["zerion.js"]
+    },
+    {
+      "matches": [
+        "https://portfolio.metamask.io/"
+      ],
+      "run_at": "document_end",
+      "js": ["metamask.js"]
     }
   ],
   "options_ui": {
